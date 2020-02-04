@@ -72,7 +72,7 @@ class InstagramUser:
 
     def get_user_info(self):
         """Get the basic user info from the profile screen"""
-        
+
         self.isprivate = self._is_user_private()
         self.alias = self._user_alias()
         self.bio = self._user_bio()
@@ -125,7 +125,7 @@ def extract_exact_info(info):
             exact_info = int(exact_info.replace('k', '00').replace('m', '00000'))
         else:
             exact_info = int(exact_info.replace('k', '000').replace('m', '000000'))
-    
+
     return exact_info
 
 
@@ -369,7 +369,7 @@ def quick_post_extract(browser, num_of_posts_to_do):
             if post_json.get('location'):
                 loc_id = post_json['location']['id']
                 loc_slug = post_json['location']['slug']
-            
+
                 location = {
                     'location_url': f"https://www.instagram.com/explore/locations/{loc_id}/{loc_slug}/",
                     'location_name': post_json['location']['name'],

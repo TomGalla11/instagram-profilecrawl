@@ -9,9 +9,12 @@ from util.datasaver import Datasaver
 from util.extractor import extract_information
 from util.extractor_posts import InstagramPost
 from util.settings import Settings
+from post_getter import di_csv_kan
 
 
-Settings.chromedriver_location = '/usr/bin/chromedriver'
+Settings.chromedriver_location = '/Users/svmihar/Documents/chromedriver'
+Settings.scrape_posts_infos = True
+Settings.log_output_toconsole = True
 
 with SetupBrowserEnvironment() as browser:
     usernames = get_all_user_names()
@@ -25,3 +28,6 @@ with SetupBrowserEnvironment() as browser:
 
         Datasaver.save_profile_commenters_txt(username, user_commented_list)
         print ("\nFinished. The json file and nicknames of users who commented were saved in profiles directory.\n")
+
+print('convert to csv')
+di_csv_kan()

@@ -13,7 +13,6 @@ class Datasaver:
                 "%Y-%m-%d %H-%M-%S") + '.json')
         else:
             file_profile = os.path.join(Settings.profile_location, username + '.json')
-
         with open(file_profile, 'w') as fp:
             fp.write(json.dumps(information, indent=4))
 
