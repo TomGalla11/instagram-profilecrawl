@@ -15,9 +15,6 @@ def csv_jos(filename , outfile = ''):
 
     df = pd.DataFrame(posts)
     return df
-    #outfile +=f'_{filename}'
-    #df.to_csv(f'{outfile}_{datetime.now().strftime("%d_%m_%Y")}.csv', index=False)
-    #print(len(df))
 
 
 def kumpulan_json():
