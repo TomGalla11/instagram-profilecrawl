@@ -15,6 +15,7 @@ flask = "*"
 requests = "*"
 ipdb = "*"
 1-6-0 = {git = "https://git@github.com/ping/instagram_private_api.git"}
+pandas = "*"
 
 [requires]
 python_version = "3.7"

@@ -1,4 +1,3 @@
-
 import re
 import sys
 
@@ -9,6 +8,7 @@ from selenium.webdriver import DesiredCapabilities
 from util.exceptions import WebDriverException
 from util.instalogger import InstaLogger
 from util.settings import Settings
+from util.account import login
 
 
 class SetupBrowserEnvironment:
@@ -33,7 +33,7 @@ class SetupBrowserEnvironment:
         self.browser = init_chromedriver(self.chrome_options, self.capabilities)
         if Settings.login_username and Settings.login_password:
             login(self.browser, Settings.login_username, Settings.login_password)
-        
+
         return self.browser
 
     def __exit__(self, exc_type, exc_value, traceback):

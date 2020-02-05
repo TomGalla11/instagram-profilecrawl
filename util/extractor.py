@@ -267,7 +267,7 @@ def get_num_posts(browser, num_of_posts_to_do):
                 InstaLogger.logger().info(f"breaking in {4 - breaking}...\nIf you believe this is only caused by slow internet, increase sleep time 'sleep_time_between_post_scroll' in settings.py")
             else:
                 breaking = 0
-            if breaking > 3:
+            if breaking > 10:
                 InstaLogger.logger().info("Not getting any more posts, ending scrolling")
                 sleep(2)
                 break
@@ -380,27 +380,29 @@ def quick_post_extract(browser, num_of_posts_to_do):
 
             num_comments = post_json['numComments']
             num_likes = post_json.get('numLikes') or post_json.get('numPreviewLikes', -1)
-
-            post_infos.append({
-                'caption': post_json['caption'],
-                'location': location,
-                'imgs': [],
-                'imgdesc': [],
-                'preview_img': post_json['thumbnailResources'],
-                'date': post_json['postedAt'],
-                'tags': [],
-                'likes': {
-                    'count': num_likes,
-                    'list': []
-                },
-                'views': post_json.get('videoViews', -1),
-                'url': f"https://www.instagram.com/p/{post_code}/",
-                'comments': {
-                    'count': num_comments,
-                    'list': []
-                },
-                'mentions': []
-            })
+            try:
+                post_infos.append({
+                    'caption': post_json['caption'],
+                    'location': location,
+                    'imgs': [],
+                    'imgdesc': [],
+                    'preview_img': post_json['thumbnailResources'],
+                    'date': post_json['postedAt'],
+                    'tags': [],
+                    'likes': {
+                        'count': num_likes,
+                        'list': []
+                    },
+                    'views': post_json.get('videoViews', -1),
+                    'url': f"https://www.instagram.com/p/{post_code}/",
+                    'comments': {
+                        'count': num_comments,
+                        'list': []
+                    },
+                    'mentions': []
+                })
+            except:
+                pass
 
         body_elem.send_keys(Keys.END)
         sleep(Settings.sleep_time_between_post_scroll)
