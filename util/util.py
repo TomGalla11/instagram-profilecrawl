@@ -39,10 +39,6 @@ def web_adress_navigator(browser, link):
         if check_page_title_notfound(browser):
             InstaLogger.logger().error("Failed to get page " + link)
             raise PageNotFound404("Failed to get page " + link)
-        #if response.status_code == 404:
-        #    InstaLogger.logger().error("Failed to get page " + link)
-        #   raise PageNotFound404()
-        # update server calls
 
         WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, "viewport")))
 
