@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 import pandas as pd
 from datetime import datetime
+from util.pencari_mention_hp import *
 
 
 def csv_jos(filename , outfile = ''):
@@ -14,6 +15,9 @@ def csv_jos(filename , outfile = ''):
         posts.append(hasil)
 
     df = pd.DataFrame(posts)
+    df.drop_duplicates(inplace=True)
+    df['telpon'] = df['caption'].apply(cek_hp)
+    df['mention'] = df['caption'].apply(cek_mention)
     return df
 
 
@@ -25,5 +29,4 @@ def di_csv_kan():
     for f in kumpulan_json():
         kumpulan_df.append(csv_jos(f))
     df = pd.concat(kumpulan_df)
-    df.drop_duplicates(inplace=True)
     df.to_csv(f'kumpulan_{datetime.now().strftime("%d_%m_%Y")}.csv', index=False)
