@@ -35,5 +35,6 @@ if __name__=='__main__':
     df.dropna(subset=['caption'], inplace=True)
     df['telpon'] = df['caption'].apply(cek_hp)
     df['mention'] = df['caption'].apply(cek_mention)
+    df.dropna(subset=['telpon'], inplace=True)
     df.to_csv('test_caption_ig.csv', index=False)
     df.to_csv('test_caption_ig.csv', index=False)
