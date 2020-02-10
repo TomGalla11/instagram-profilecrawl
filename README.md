@@ -1,9 +1,13 @@
 <img src="https://s3-eu-central-1.amazonaws.com/centaur-wp/designweek/prod/content/uploads/2016/05/11170038/Instagram_Logo-1002x1003.jpg" width="200" align="right">
 
+## contoh
+```python
+x ='Jangan lupa temukan @dawetayupakgundul di bazaar Sutos gengss 🙈🙈  \nHarga murmer dan dawetnya itu oke beuts deh pokoknya \U0001f970 MAU?\n.\n[ MENU @dawetayupakgundul ]\n- Egung Nang Ati 10k\n- Semending Ning Ngangeni 15k\n.\n*BACA YA GUYS\n-@dawetayupakgundul sedang ikutan bazaar of collaboration Pesta Wirausaha Jatim 2020 di Sutos dari tanggal 1 hingga 2 Februari 2020\n.\n🏠: "Es Dawet Ayu Banjarnegara Pak Gundul"\n[LOKASI TETAP]\n📍  : ITC Mega Grosir Lt 3, Surabaya\n(Area Food Court dekat Eskalator SIBEC)\n⏳: Setiap Hari sesuai Jam Operasional ITC\nIG: @dawetayupakgundul \nWA/TELP: 0856.4799.0786\nHALAL ✔️\nGO-FOOD ✔️\nGRAB FOOD ✔️\nYOUTUBE: Koko Buncit\nKehidupan alay ko\'Buncit klik IG stories\n#kulinersby #kokobuncit #exploresurabaya #Kokobuncitmall #jakarta #indonesia #kulinersurabaya #kulinerindonesia #esdawet'
+```
 # Instagram-Profilecrawl
 
 ## Quickly crawl the information (e.g. followers, tags etc...) of an instagram profile. No login required!
-Automation Script for crawling information from ones instagram profile.  
+Automation Script for crawling information from ones instagram profile.
 Like e.g. the number of posts, followers, and the tags of the the posts
 
 #### Getting started
