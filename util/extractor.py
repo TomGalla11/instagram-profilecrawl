@@ -348,7 +348,6 @@ def quick_post_extract(browser, num_of_posts_to_do):
     pbar = tqdm(total = num_of_posts_to_do)
 
     while (posts_set_len < num_of_posts_to_do):
-        pbar.update(1)
         JSGetPostsFromReact = """
             var feed = document.getElementsByTagName('article')[0];
             var __reactInternalInstanceKey = Object.keys(feed).filter(k=>k.startsWith('__reactInternalInstance'))[0]
@@ -413,6 +412,8 @@ def quick_post_extract(browser, num_of_posts_to_do):
             InstaLogger.logger().info(f"breaking in {4 - breaking}...\nIf you believe this is only caused by slow internet, increase sleep time 'sleep_time_between_post_scroll' in settings.py")
         else:
             breaking = 0
+
+        pbar.update(len(posts_set)-previouslen )
 
         if breaking > 3:
             InstaLogger.logger().info("Not getting any more posts, ending scrolling")
