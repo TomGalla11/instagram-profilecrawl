@@ -9,7 +9,7 @@ class Settings:
     profile_location = os.path.join(BASE_DIR, 'profiles')
     profile_commentors_location = os.path.join(BASE_DIR, 'profiles')
     profile_file_with_timestamp = True
-    profile_commentors_file_with_timestamp = True
+    profile_commentors_file_with_timestamp = False
     limit_amount = 3500
     scrape_posts_infos = True
     scrape_posts_likers = False
@@ -20,7 +20,7 @@ class Settings:
     mentions = True
 
     log_output_toconsole = True
-    log_output_tofile = True
+    log_output_tofile = False
     log_file_per_run = False
     log_location = os.path.join(BASE_DIR, 'logs')
 

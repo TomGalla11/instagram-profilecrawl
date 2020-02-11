@@ -52,7 +52,6 @@ def log_stats(username=None):
     while list_of_files != []:
 
         profile_filename = min(list_of_files, key=os.path.getctime)
-        print(profile_filename)
         with open(profile_filename, 'r') as f_profile:
             profile = json.load(f_profile)
             write_stats(profile)

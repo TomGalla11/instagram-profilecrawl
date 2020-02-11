@@ -42,7 +42,8 @@ class InstagramPost:
 
         self.comments, self.commentscount = self.extract_comments()
 
-        self.user_commented_list, self.user_comments = self.extract_users_from_comments(self.comments)
+        self.user_commented_list, self.user_comments = self.extract_users_from_comments(
+            self.comments)
         self.user_liked_list = self.extract_likers(self.likes)
 
         self.caption = self.extract_caption(self.user_comments, self.username)
@@ -62,7 +63,8 @@ class InstagramPost:
             # if len(self.post.find_elements_by_xpath('//article/div/section')) > 2:
             # image or video post?
             if len(img_tags) >= 1:
-                likes = self.post.find_element_by_xpath('//article/div[2]/section[2]/div/div/button/span').text
+                likes = self.post.find_element_by_xpath(
+                    '//article/div[2]/section[2]/div/div/button/span').text
             else:
                 try:
                     views = int(
@@ -71,9 +73,12 @@ class InstagramPost:
                 except:
                     InstaLogger.logger().error("ERROR - Getting Video Views")
                 # click the view count to get the likes popup
-                viewcount_click = self.post.find_element_by_xpath('//article/div[2]/section[2]/div/span')
-                self.browser.execute_script("arguments[0].click();", viewcount_click)
-                likes = self.post.find_element_by_xpath('//article/div[2]/section[2]/div/div/div[4]/span').text
+                viewcount_click = self.post.find_element_by_xpath(
+                    '//article/div[2]/section[2]/div/span')
+                self.browser.execute_script(
+                    "arguments[0].click();", viewcount_click)
+                likes = self.post.find_element_by_xpath(
+                    '//article/div[2]/section[2]/div/div/div[4]/span').text
 
             likes = likes.replace(',', '').replace('.', '')
             likes = likes.replace('k', '00')
@@ -86,17 +91,19 @@ class InstagramPost:
         try:
             likes = int(likes)
         except Exception as err:
-            InstaLogger.logger().error("ERROR - Extracting number of likes failed. Saving likes as -1")
+            InstaLogger.logger().error(
+                "ERROR - Extracting number of likes failed. Saving likes as -1")
             InstaLogger.logger().error(err)
             likes = -1
 
         return likes, views
-    
+
     def extract_username(self):
         username = ''
 
         try:
-            username = self.post.find_element_by_class_name('e1e1d').find_element_by_tag_name('a').text
+            username = self.post.find_element_by_class_name(
+                'e1e1d').find_element_by_tag_name('a').text
         except:
             InstaLogger.logger().error("ERROR - getting Post infos (username) ")
 
@@ -112,12 +119,14 @@ class InstagramPost:
 
         try:
             # Location url and name
-            location_div = self.post.find_element_by_class_name('M30cS').find_elements_by_tag_name('a')
+            location_div = self.post.find_element_by_class_name(
+                'M30cS').find_elements_by_tag_name('a')
             if location_div:
                 location_url = location_div[0].get_attribute('href')
                 location_name = location_div[0].text
                 # Longitude and latitude
-                location_id = location_url.strip('https://www.instagram.com/explore/locations/').split('/')[0]
+                location_id = location_url.strip(
+                    'https://www.instagram.com/explore/locations/').split('/')[0]
                 url = 'https://www.instagram.com/explore/locations/' + location_id + '/?__a=1'
                 response = requests.get(url)
                 data = response.json()
@@ -137,7 +146,8 @@ class InstagramPost:
         date = ''
 
         try:
-            date = self.post.find_element_by_xpath('//a/time').get_attribute("datetime")
+            date = self.post.find_element_by_xpath(
+                '//a/time').get_attribute("datetime")
             InstaLogger.logger().info("Post date: " + str(date))
         except:
             InstaLogger.logger().error("ERROR - getting Post Date ")
@@ -166,7 +176,8 @@ class InstagramPost:
             return mentions
 
         if self.post.find_elements_by_class_name('JYWcJ'):  # perhaps JYWcJ
-            mention_list = self.post.find_elements_by_class_name('JYWcJ')  # perhaps JYWcJ
+            mention_list = self.post.find_elements_by_class_name(
+                'JYWcJ')  # perhaps JYWcJ
             for mention in mention_list:
                 user_mention = mention.get_attribute("href").split('/')
                 mentions.append(user_mention[3])
@@ -215,27 +226,30 @@ class InstagramPost:
     def load_more_comments(self, comments):
         tried_catch_comments = 0
 
-        while (comments[1].text.lower() == 'load more comments' or 
+        while (comments[1].text.lower() == 'load more comments' or
                comments[1].text.lower().startswith('view all')):
             try:
                 if comments[1].find_element_by_tag_name('button'):
                     InstaLogger.logger().info("clicking button for loading more comments")
                     self.browser.execute_script("arguments[0].click();",
-                                           comments[1].find_element_by_tag_name('button'))
+                                                comments[1].find_element_by_tag_name('button'))
                 elif comments[1].find_element_by_tag_name('a'):
                     InstaLogger.logger().info("clicking a for loading more")
-                    self.browser.execute_script("arguments[0].click();", comments[1].find_element_by_tag_name('a'))
+                    self.browser.execute_script(
+                        "arguments[0].click();", comments[1].find_element_by_tag_name('a'))
 
                 sleep(Settings.sleep_time_between_comment_loading)
 
                 comment_list = self.post.find_element_by_tag_name('ul')
                 comments = comment_list.find_elements_by_tag_name('li')
-                InstaLogger.logger().info(f"comments (loaded: {len(comments)} /lastrun: {comments_found_last_run})")
+                InstaLogger.logger().info(
+                    f"comments (loaded: {len(comments)} /lastrun: {comments_found_last_run})")
 
                 if (comments_found_last_run == len(comments)):
                     comments_run_same_length = comments_run_same_length + 1
                     if comments_run_same_length > 10:
-                        InstaLogger.logger().error(f"exit getting comments: {comments_run_same_length} x same length of comments, perhaps endless loop")
+                        InstaLogger.logger().error(
+                            f"exit getting comments: {comments_run_same_length} x same length of comments, perhaps endless loop")
                         break
                 else:
                     comments_same_length = 0
@@ -260,7 +274,8 @@ class InstagramPost:
 
         for comm in comments:
             try:
-                user_commented = comm.find_element_by_tag_name('a').get_attribute("href").split('/')
+                user_commented = comm.find_element_by_tag_name(
+                    'a').get_attribute("href").split('/')
                 user_commented_list.append(user_commented[3])
             except:
                 InstaLogger.logger().error("ERROR something went wrong getting user_commented")
@@ -297,12 +312,15 @@ class InstagramPost:
         likers_list_before = 0
         try:
             # self.post.find_element_by_xpath("//a[contains(@class, 'zV_Nj')]").click()
-            elementToClick = self.post.find_element_by_xpath("//a[contains(@class, 'zV_Nj')]")
-            self.browser.execute_script("arguments[0].click();", elementToClick)
+            elementToClick = self.post.find_element_by_xpath(
+                "//a[contains(@class, 'zV_Nj')]")
+            self.browser.execute_script(
+                "arguments[0].click();", elementToClick)
             sleep(3)
 
             # likers_list = self.post.find_elements_by_xpath("//li[@class='wo9IH']//a[contains(@class, 'FPmhX')]")
-            likers_list = self.post.find_elements_by_xpath(xpath_identifier_user)
+            likers_list = self.post.find_elements_by_xpath(
+                xpath_identifier_user)
             InstaLogger.logger().info("LÄNGE " + str(len(likers_list)) + "")
 
             while len(likers_list) < likes:
@@ -313,18 +331,22 @@ class InstagramPost:
                     div_likebox_elem = self.browser.find_element_by_xpath(
                         "//div[contains(@class, 'i0EQd')]/div/div/div[last()]")  # old:wwxN2
                     # self.browser.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", div_likebox_elem)
-                    self.browser.execute_script("arguments[0].scrollIntoView(true);", div_likebox_elem)
+                    self.browser.execute_script(
+                        "arguments[0].scrollIntoView(true);", div_likebox_elem)
                 except BaseException as e:
                     tried_catch_likers = tried_catch_likers + 1
                     div_likebox_elem = self.browser.find_element_by_xpath(
                         "//div[contains(@class, 'i0EQd')]/div/div/div[1]")
-                    self.browser.execute_script("arguments[0].scrollIntoView(true);", div_likebox_elem)
-                    InstaLogger.logger().info("error on scrolling - next try (tried: " + str(tried_catch_likers) + ") Message:" + e)
+                    self.browser.execute_script(
+                        "arguments[0].scrollIntoView(true);", div_likebox_elem)
+                    InstaLogger.logger().info("error on scrolling - next try (tried: " +
+                                              str(tried_catch_likers) + ") Message:" + e)
 
                 sleep(Settings.sleep_time_between_post_scroll)
 
                 # likers_list = self.post.find_elements_by_xpath(" //li[@class='wo9IH']//a[contains(@class, 'FPmhX')]")
-                likers_list = self.post.find_elements_by_xpath(xpath_identifier_user)
+                likers_list = self.post.find_elements_by_xpath(
+                    xpath_identifier_user)
                 for liker in likers_list:
                     user_like = liker.get_attribute("href").split('/')
                     username_liked_post = user_like[3]
@@ -333,11 +355,13 @@ class InstagramPost:
 
                 if (likers_list_before == len(user_liked_list)):
                     tried_catch_likers = tried_catch_likers + 1
-                    InstaLogger.logger().info("error on scrolling - next try (tried: " + str(tried_catch_likers) + ")")
+                    InstaLogger.logger().info(
+                        "error on scrolling - next try (tried: " + str(tried_catch_likers) + ")")
                     sleep(Settings.sleep_time_between_post_scroll * 1.5)
                     div_likebox_elem = self.browser.find_element_by_xpath(
                         "//div[contains(@class, 'i0EQd')]/div/div/div[1]")
-                    self.browser.execute_script("arguments[0].scrollIntoView(true);", div_likebox_elem)
+                    self.browser.execute_script(
+                        "arguments[0].scrollIntoView(true);", div_likebox_elem)
 
                 if tried_catch_likers > 10:
                     InstaLogger.logger().error("exit scrolling likers " + str(tried_catch_likers) + "x tries - liker list: " + str(

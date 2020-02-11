@@ -1,5 +1,6 @@
 """Methods to extract the data for the given usernames profile"""
 import sys
+from tqdm import tqdm
 from time import sleep, time
 from re import findall
 import math
@@ -289,7 +290,7 @@ def extract_user_posts(browser, num_of_posts_to_do):
     # into user_commented_total_list I will add all username links who commented on any post of this user
     user_commented_total_list = []
 
-    for postlink in links2:
+    for postlink in tqdm(links2, desc="scraping user posts"):
 
         InstaLogger.logger().info(f"\n {counter} / {len(links2)}")
         counter = counter + 1
@@ -344,10 +345,10 @@ def quick_post_extract(browser, num_of_posts_to_do):
     post_infos = []
     posts_set = set()
     posts_set_len = 0
+    pbar = tqdm(total = num_of_posts_to_do)
 
     while (posts_set_len < num_of_posts_to_do):
-        print(posts_set_len)
-
+        pbar.update(1)
         JSGetPostsFromReact = """
             var feed = document.getElementsByTagName('article')[0];
             var __reactInternalInstanceKey = Object.keys(feed).filter(k=>k.startsWith('__reactInternalInstance'))[0]
@@ -362,9 +363,7 @@ def quick_post_extract(browser, num_of_posts_to_do):
             post_code = post_json['code']
             if post_code in posts_set:
                 continue
-
             posts_set.add(post_code)
-
             location = {}
             if post_json.get('location'):
                 loc_id = post_json['location']['id']
@@ -422,6 +421,7 @@ def quick_post_extract(browser, num_of_posts_to_do):
 
         previouslen = len(post_infos)
 
+    pbar.close()
     return post_infos, []
 
 
@@ -445,7 +445,7 @@ def extract_information(browser, username, limit_amount):
     if limit_amount < 1:
         limit_amount = 999999
 
-    num_of_posts_to_do = min(limit_amount, ig_user.num_of_posts['count'])
+    num_of_posts_to_do = ig_user.num_of_posts['count']
 
 
     prev_divs = browser.find_elements_by_class_name('_70iju')

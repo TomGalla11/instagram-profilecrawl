@@ -44,9 +44,6 @@ def web_adress_navigator(browser, link):
 
 
 def check_page_title_notfound(browser):
-    """ little bit hacky but selenium doesn't shown if 404 is send"""
-    """ more infos https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/141 """
-
     title = browser.title
     return title.lower().startswith('page not found')
 
