@@ -25,8 +25,8 @@ class InstagramUser:
         self.browser = browser
         self.username = username
         self.num_of_posts = {'count': 0}
-        self.followers = {'count' : 0}
-        self.following = {'count' : 0}
+        self.followers = {'count': 0}
+        self.following = {'count': 0}
         self.profile_image = ""
         self.bio = ""
         self.bio_url = ""
@@ -46,12 +46,14 @@ class InstagramUser:
         return isprivate
 
     def _user_alias(self):
-        alias = self.container.find_element_by_class_name('-vDIg').find_element_by_tag_name('h1').text
+        alias = self.container.find_element_by_class_name(
+            '-vDIg').find_element_by_tag_name('h1').text
 
         return alias
 
     def _user_bio(self):
-        bio = self.container.find_element_by_class_name('-vDIg').find_element_by_tag_name('span').text
+        bio = self.container.find_element_by_class_name(
+            '-vDIg').find_element_by_tag_name('span').text
         return bio
 
     def _user_bio_url(self):
@@ -61,15 +63,14 @@ class InstagramUser:
         except NoSuchElementException:
             return self.bio_url
 
-
     def _user_profile_image(self):
         try:
             img_container = self.browser.find_element_by_class_name('RR-M-')
-            profile_image = img_container.find_element_by_tag_name('img').get_attribute('src')
+            profile_image = img_container.find_element_by_tag_name(
+                'img').get_attribute('src')
             return profile_image
         except NoSuchElementException:
             return self.profile_image
-
 
     def get_user_info(self):
         """Get the basic user info from the profile screen"""
@@ -83,13 +84,13 @@ class InstagramUser:
         infos = self.container.find_elements_by_class_name('Y8-fY')
         if infos:
             self.num_of_posts = {'count': extract_exact_info(infos[0])}
-            self.following = {'count' : extract_exact_info(infos[2])}
-            self.followers = {'count' : extract_exact_info(infos[1])}
+            self.following = {'count': extract_exact_info(infos[2])}
+            self.followers = {'count': extract_exact_info(infos[1])}
 
             if Settings.scrape_follower == True:
                 if not isprivate:
-                    self.followers['list'] = extract_followers(self.browser, self.username)
-
+                    self.followers['list'] = extract_followers(
+                        self.browser, self.username)
 
         InstaLogger.logger().info("Alias name: " + self.alias)
         InstaLogger.logger().info("Bio: " + self.bio)
@@ -105,7 +106,7 @@ class InstagramUser:
         output['num_of_posts'] = self.num_of_posts
         output['followers'] = self.followers
         output['following'] = self.following
-        output['profile_image'] =self.profile_image
+        output['profile_image'] = self.profile_image
         output['bio'] = self.bio
         output['bio_url'] = self.bio_url
         output['alias'] = self.alias
@@ -118,14 +119,17 @@ class InstagramUser:
 def extract_exact_info(info):
     exact_info = 0
     try:
-        exact_info = int(info.find_element_by_tag_name('span').get_attribute('title').replace('.', '').replace(',', ''))
+        exact_info = int(info.find_element_by_tag_name(
+            'span').get_attribute('title').replace('.', '').replace(',', ''))
     except:
         exact_info = str(info.text.split(' ')[0].replace(',', ''))
         if exact_info.find('.') != -1:
             exact_info = exact_info.replace('.', '')
-            exact_info = int(exact_info.replace('k', '00').replace('m', '00000'))
+            exact_info = int(exact_info.replace(
+                'k', '00').replace('m', '00000'))
         else:
-            exact_info = int(exact_info.replace('k', '000').replace('m', '000000'))
+            exact_info = int(exact_info.replace(
+                'k', '000').replace('m', '000000'))
 
     return exact_info
 
@@ -148,16 +152,19 @@ def extract_followers(browser, username):
     sleep(15)
 
     # remove suggestion list and load 24 list elements after this
-    browser.execute_script("document.getElementsByClassName('isgrP')[0].scrollTo(0,500)")
+    browser.execute_script(
+        "document.getElementsByClassName('isgrP')[0].scrollTo(0,500)")
     sleep(10)
 
-    elems = browser.find_elements_by_xpath("//body//div[@class='PZuss']//a[@class='FPmhX notranslate _0imsa ']")
+    elems = browser.find_elements_by_xpath(
+        "//body//div[@class='PZuss']//a[@class='FPmhX notranslate _0imsa ']")
     for i in range(12):
         val = elems[i].get_attribute('innerHTML')
         followers.append(val)
 
     for i in range(12):
-        browser.execute_script("document.getElementsByClassName('PZuss')[0].children[0].remove()")
+        browser.execute_script(
+            "document.getElementsByClassName('PZuss')[0].children[0].remove()")
 
     isDone = False
 
@@ -185,7 +192,8 @@ def extract_followers(browser, username):
             if isDone:
                 break
 
-            elems = browser.find_elements_by_xpath("//body//div[@class='PZuss']//a[@class='FPmhX notranslate _0imsa ']")
+            elems = browser.find_elements_by_xpath(
+                "//body//div[@class='PZuss']//a[@class='FPmhX notranslate _0imsa ']")
             list_segment = ""
             for i in range(12):
                 val = elems[i].get_attribute('innerHTML')
@@ -193,7 +201,8 @@ def extract_followers(browser, username):
                 followers.append(val)
 
             for i in range(12):
-                browser.execute_script("document.getElementsByClassName('PZuss')[0].children[0].remove()")
+                browser.execute_script(
+                    "document.getElementsByClassName('PZuss')[0].children[0].remove()")
 
             InstaLogger.logger().info(time() - start)
 
@@ -204,7 +213,8 @@ def extract_followers(browser, username):
             continue
 
     list_segment = ""
-    elems = browser.find_elements_by_xpath("//body//div[@class='PZuss']//a[@class='FPmhX notranslate _0imsa ']")
+    elems = browser.find_elements_by_xpath(
+        "//body//div[@class='PZuss']//a[@class='FPmhX notranslate _0imsa ']")
     for i in range(len(elems)):
         val = elems[i].get_attribute('innerHTML')
         list_segment += (val + '\n')
@@ -233,13 +243,16 @@ def get_num_posts(browser, num_of_posts_to_do):
         previouslen = 0
         breaking = 0
 
-        InstaLogger.logger().info(f"number of posts to do: {num_of_posts_to_do}")
+        InstaLogger.logger().info(
+            f"number of posts to do: {num_of_posts_to_do}")
         num_of_posts_to_scroll = 12 * math.ceil(num_of_posts_to_do / 12)
-        InstaLogger.logger().info(f"Getting first {num_of_posts_to_scroll} posts but checking {num_of_posts_to_do} posts only, if you want to change this limit, change limit_amount value in crawl_profile.py\n")
+        InstaLogger.logger().info(
+            f"Getting first {num_of_posts_to_scroll} posts but checking {num_of_posts_to_do} posts only, if you want to change this limit, change limit_amount value in crawl_profile.py\n")
         while (len(links2) < num_of_posts_to_do):
 
             prev_divs = browser.find_elements_by_tag_name('main')
-            links_elems = [div.find_elements_by_tag_name('a') for div in prev_divs]
+            links_elems = [div.find_elements_by_tag_name(
+                'a') for div in prev_divs]
             links = sum([[link_elem.get_attribute('href')
                           for link_elem in elems] for elems in links_elems], [])
 
@@ -258,14 +271,16 @@ def get_num_posts(browser, num_of_posts_to_do):
                         links2.append(link)
 
             links2 = list(set(links2))
-            InstaLogger.logger().info(f"Scrolling profile {len(links2)} / {num_of_posts_to_scroll}")
+            InstaLogger.logger().info(
+                f"Scrolling profile {len(links2)} / {num_of_posts_to_scroll}")
             body_elem.send_keys(Keys.END)
             sleep(Settings.sleep_time_between_post_scroll)
 
-            ##remove bellow part to never break the scrolling script before reaching the num_of_posts
+            # remove bellow part to never break the scrolling script before reaching the num_of_posts
             if (len(links2) == previouslen):
                 breaking += 1
-                InstaLogger.logger().info(f"breaking in {4 - breaking}...\nIf you believe this is only caused by slow internet, increase sleep time 'sleep_time_between_post_scroll' in settings.py")
+                InstaLogger.logger().info(
+                    f"breaking in {4 - breaking}...\nIf you believe this is only caused by slow internet, increase sleep time 'sleep_time_between_post_scroll' in settings.py")
             else:
                 breaking = 0
             if breaking > 10:
@@ -327,9 +342,11 @@ def extract_user_posts(browser, num_of_posts_to_do):
                 },
                 'mentions': instagram_post.mentions
             })
-            user_commented_total_list = user_commented_total_list + instagram_post.user_commented_list
+            user_commented_total_list = user_commented_total_list + \
+                instagram_post.user_commented_list
         except NoSuchElementException as err:
-            InstaLogger.logger().error("Could not get information from post: " + instagram_post.postlink)
+            InstaLogger.logger().error(
+                "Could not get information from post: " + instagram_post.postlink)
             InstaLogger.logger().error(err)
     return post_infos, user_commented_total_list
 
@@ -345,7 +362,7 @@ def quick_post_extract(browser, num_of_posts_to_do):
     post_infos = []
     posts_set = set()
     posts_set_len = 0
-    pbar = tqdm(total = num_of_posts_to_do)
+    pbar = tqdm(total=num_of_posts_to_do)
 
     while (posts_set_len < num_of_posts_to_do):
         JSGetPostsFromReact = """
@@ -377,7 +394,8 @@ def quick_post_extract(browser, num_of_posts_to_do):
                 }
 
             num_comments = post_json['numComments']
-            num_likes = post_json.get('numLikes') or post_json.get('numPreviewLikes', -1)
+            num_likes = post_json.get(
+                'numLikes') or post_json.get('numPreviewLikes', -1)
             try:
                 post_infos.append({
                     'caption': post_json['caption'],
@@ -406,20 +424,26 @@ def quick_post_extract(browser, num_of_posts_to_do):
         sleep(Settings.sleep_time_between_post_scroll)
 
         posts_set_len = len(posts_set)
-        ##remove below part to never break the scrolling script before reaching the num_of_posts
+        # remove below part to never break the scrolling script before reaching the num_of_posts
         if (posts_set_len == previouslen):
             breaking += 1
-            InstaLogger.logger().info(f"breaking in {4 - breaking}...\nIf you believe this is only caused by slow internet, increase sleep time 'sleep_time_between_post_scroll' in settings.py")
+            InstaLogger.logger().info(
+                f"breaking in {10 - breaking}...\nIf you believe this is only caused by slow internet, increase sleep time 'sleep_time_between_post_scroll' in settings.py")
+            InstaLogger.logger().info(f"sleeping for 15 seconds...")
+            sleep(15)
         else:
             breaking = 0
 
-        pbar.update(len(posts_set)-previouslen )
+        if num_of_posts_to_do-posts_set_len <= 2:
+            InstaLogger.logger().info('diselesaikan saja ')
+            breaking += 100
 
-        if breaking > 3:
+        if breaking > 9:
             InstaLogger.logger().info("Not getting any more posts, ending scrolling")
             sleep(2)
             break
 
+        pbar.update(len(posts_set)-previouslen)
         previouslen = len(post_infos)
 
     pbar.close()
@@ -448,17 +472,18 @@ def extract_information(browser, username, limit_amount):
 
     num_of_posts_to_do = ig_user.num_of_posts['count']
 
-
     prev_divs = browser.find_elements_by_class_name('_70iju')
 
     post_infos = []
     user_commented_total_list = []
     if Settings.scrape_posts_infos is True and isprivate is False:
-        post_infos, user_commented_total_list = quick_post_extract(browser, num_of_posts_to_do)
+        post_infos, user_commented_total_list = quick_post_extract(
+            browser, num_of_posts_to_do)
 
     ig_user.posts = post_infos
     ig_user.scraped = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    InstaLogger.logger().info("User " + username + " has " + str(len(user_commented_total_list)) + " comments.")
+    InstaLogger.logger().info("User " + username + " has " +
+                              str(len(user_commented_total_list)) + " comments.")
 
     # sorts the list by frequencies, so users who comment the most are at the top
     import collections

@@ -5,6 +5,7 @@ from sys import platform as p_os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OS_ENV = "windows" if p_os == "win32" else "osx" if p_os == "darwin" else "linux"
 
+
 class Settings:
     profile_location = os.path.join(BASE_DIR, 'profiles')
     profile_commentors_location = os.path.join(BASE_DIR, 'profiles')
@@ -24,17 +25,17 @@ class Settings:
     log_file_per_run = False
     log_location = os.path.join(BASE_DIR, 'logs')
 
-    #from Instpy
-    # Set a logger cache outside object to avoid re-instantiation issues
     loggers = {}
 
     login_username = ''
     login_password = ''
 
-    #chromedriver
+    # chromedriver
     chromedriver_min_version = 2.36
     specific_chromedriver = f"chromedriver_{OS_ENV}"
-    chromedriver_location = os.path.join(BASE_DIR, "assets", specific_chromedriver)
+    chromedriver_location = os.path.join(
+        BASE_DIR, "assets", specific_chromedriver)
 
     if not os.path.exists(chromedriver_location):
-        chromedriver_location = os.path.join(BASE_DIR, 'assets', 'chromedriver')
+        chromedriver_location = os.path.join(
+            BASE_DIR, 'assets', 'chromedriver')
