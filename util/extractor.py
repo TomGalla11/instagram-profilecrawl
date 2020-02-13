@@ -1,6 +1,5 @@
 """Methods to extract the data for the given usernames profile"""
 import sys
-from tqdm import tqdm
 from time import sleep, time
 from re import findall
 import math
@@ -305,7 +304,7 @@ def extract_user_posts(browser, num_of_posts_to_do):
     # into user_commented_total_list I will add all username links who commented on any post of this user
     user_commented_total_list = []
 
-    for postlink in tqdm(links2, desc="scraping user posts"):
+    for postlink in links2:
 
         InstaLogger.logger().info(f"\n {counter} / {len(links2)}")
         counter = counter + 1
@@ -362,7 +361,6 @@ def quick_post_extract(browser, num_of_posts_to_do):
     post_infos = []
     posts_set = set()
     posts_set_len = 0
-    pbar = tqdm(total=num_of_posts_to_do)
 
     while (posts_set_len < num_of_posts_to_do):
         JSGetPostsFromReact = """
@@ -440,8 +438,7 @@ def quick_post_extract(browser, num_of_posts_to_do):
 
         if posts_set_len > num_of_posts_to_do:
             breaking+=100
-
-        pbar.update(len(posts_set)-previouslen)
+        InstaLogger.logger().info(f'{posts_set_len}/{num_of_posts_to_do}')
 
         if breaking > 9:
             InstaLogger.logger().info("Not getting any more posts, ending scrolling")
@@ -450,7 +447,6 @@ def quick_post_extract(browser, num_of_posts_to_do):
 
         previouslen = len(post_infos)
 
-    pbar.close()
     return post_infos, []
 
 

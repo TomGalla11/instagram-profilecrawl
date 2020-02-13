@@ -10,3 +10,7 @@ def cek_hp(caption):
         return ' '.join(hasil)
     else:
         return None
+
+def cek_email(caption):
+    hasil = re.findall()
+    return ' '.join(hasil)
