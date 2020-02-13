@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 import pandas as pd
 from datetime import datetime
-from util.pencari_mention_hp import *
+from util.pencari_mention_hp import cek_email
 
 
 def csv_jos(filename, outfile=''):
@@ -17,7 +17,7 @@ def csv_jos(filename, outfile=''):
 
     df = pd.DataFrame(posts)
     df.drop_duplicates(inplace=True)
-    df['telpon'] = df['caption'].apply(cek_hp)
+    df['email'] = df['caption'].apply(cek_email)
     return df
 
 

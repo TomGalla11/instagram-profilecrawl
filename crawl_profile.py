@@ -9,6 +9,7 @@ from util.extractor import extract_information
 from util.extractor_posts import InstagramPost
 from util.settings import Settings
 from post_getter import di_csv_kan
+from tqdm import tqdm
 
 
 Settings.chromedriver_location = '/Users/svmihar/Documents/chromedriver'
@@ -17,11 +18,9 @@ Settings.log_output_toconsole = True
 
 with SetupBrowserEnvironment() as browser:
     usernames = get_all_user_names()
-    for username in usernames:
+    for username in tqdm(usernames):
         print('Extracting information from ' + username)
-
         information, user_commented_list = extract_information(browser, username, Settings.limit_amount)
-
         Datasaver.save_profile_json(username, information.to_dict())
         # print ("Number of users who commented on their profile is ", len(user_commented_list),"\n")
 

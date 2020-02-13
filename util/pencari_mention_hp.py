@@ -12,5 +12,8 @@ def cek_hp(caption):
         return None
 
 def cek_email(caption):
-    hasil = re.findall()
-    return ' '.join(hasil)
+    hasil = re.findall(r'[\w\.-]+@[\w\.-]+(\.[\w]+)+', caption)
+    if len(hasil) > 0:
+        return ' '.join(hasil)
+    else:
+        return None
