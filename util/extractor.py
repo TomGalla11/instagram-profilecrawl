@@ -433,17 +433,17 @@ def quick_post_extract(browser, num_of_posts_to_do):
             sleep(15)
         else:
             breaking = 0
-
-        if num_of_posts_to_do-posts_set_len <= 2:
+        if num_of_posts_to_do-posts_set_len <= 2 and posts_set_len < num_of_posts_to_do:
             InstaLogger.logger().info('diselesaikan saja ')
             breaking += 100
+
+        pbar.update(len(posts_set)-previouslen)
 
         if breaking > 9:
             InstaLogger.logger().info("Not getting any more posts, ending scrolling")
             sleep(2)
             break
 
-        pbar.update(len(posts_set)-previouslen)
         previouslen = len(post_infos)
 
     pbar.close()
