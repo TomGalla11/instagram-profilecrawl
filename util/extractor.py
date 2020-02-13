@@ -503,3 +503,6 @@ def extract_information(browser, username, limit_amount):
             last = user_commented_total_list[i]
 
     return ig_user, user_commented_list
+
+
+
