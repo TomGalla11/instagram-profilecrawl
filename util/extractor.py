@@ -460,12 +460,13 @@ def extract_information(browser, username, limit_amount):
         user_link = "https://www.instagram.com/{}/".format(username)
         web_adress_navigator(browser, user_link)
         print('Navigated')
+        ig_user = InstagramUser(browser, username)
     except PageNotFound404 as e:
         raise NoInstaProfilePageFound(e)
 
     num_of_posts_to_do = 999999
 
-    ig_user = InstagramUser(browser, username)
+   # ig_user = InstagramUser(browser, username)
     #ig_user.init()
     ig_user.get_user_info()
 
