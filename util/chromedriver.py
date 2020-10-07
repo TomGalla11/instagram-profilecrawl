@@ -15,13 +15,13 @@ class SetupBrowserEnvironment:
     def __init__(self, chrome_options=None, capabilities=None):
         if chrome_options is None:
             chrome_options = Options()
-            prefs = {'profile.managed_default_content_settings.images':2, 'disk-cache-size': 4096, 'intl.accept_languages': 'en-US'}
+            #prefs = {'profile.managed_default_content_settings.images':2, 'disk-cache-size': 4096, 'intl.accept_languages': 'en-US'}
             chrome_options.add_argument('--dns-prefetch-disable')
             chrome_options.add_argument("--window-size=1920,1080")
             chrome_options.add_argument('--no-sandbox')
             chrome_options.add_argument('--lang=en-US')
             chrome_options.add_argument('--headless')
-            chrome_options.add_experimental_option('prefs', prefs)
+            #chrome_options.add_experimental_option('prefs', prefs)
 
         if capabilities is None:
             capabilities = DesiredCapabilities.CHROME
@@ -45,9 +45,7 @@ def init_chromedriver(chrome_options, capabilities):
     chromedriver_location = Settings.chromedriver_location
 
     try:
-        browser = webdriver.Chrome('chromedriver',
-                                                desired_capabilities=capabilities,
-                                                chrome_options=chrome_options)
+        browser = webdriver.Chrome('chromedriver', desired_capabilities=capabilities, chrome_options=chrome_options)
     except WebDriverException as exc:
         InstaLogger.logger().error('ensure chromedriver is installed at {}'.format(
             Settings.chromedriver_location))
