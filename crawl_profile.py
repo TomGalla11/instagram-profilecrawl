@@ -12,7 +12,7 @@ from post_getter import di_csv_kan
 from tqdm import tqdm
 
 
-Settings.chromedriver_location = 'chromedriver'
+Settings.chromedriver_location = '/usr/bin/chromedriver'
 Settings.scrape_posts_infos = True
 Settings.log_output_toconsole = True
 
