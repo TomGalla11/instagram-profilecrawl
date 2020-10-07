@@ -6,7 +6,7 @@ from util.chromedriver import SetupBrowserEnvironment
 from util.cli_helper import get_all_user_names
 from util.datasaver import Datasaver
 from util.extractor import extract_information
-from util.extractor_posts import InstagramPost
+#from util.extractor_posts import InstagramPost
 from util.settings import Settings
 from post_getter import di_csv_kan
 from tqdm import tqdm
