@@ -20,7 +20,7 @@ from util.exceptions import PageNotFound404, NoInstaProfilePageFound
 
 
 class InstagramUser:
-    def init(self, browser, username): #__init__
+    def __init__(self, browser, username): #__init__
         self.browser = browser
         self.username = username
         self.num_of_posts = {'count': 0}
@@ -466,7 +466,7 @@ def extract_information(browser, username, limit_amount):
     num_of_posts_to_do = 999999
 
     ig_user = InstagramUser(browser, username)
-    ig_user.init()
+    #ig_user.init()
     ig_user.get_user_info()
 
     if limit_amount < 1:
