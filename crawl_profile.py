@@ -11,11 +11,7 @@ from util.settings import Settings
 from post_getter import di_csv_kan
 from tqdm import tqdm
 
-
-Settings.chromedriver_location = '/usr/bin/chromedriver'
-Settings.scrape_posts_infos = True
-Settings.log_output_toconsole = True
-
+print('Settings.limit_amount')
 with SetupBrowserEnvironment() as browser:
     usernames = get_all_user_names()
     for username in tqdm(usernames):
