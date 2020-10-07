@@ -45,7 +45,7 @@ def init_chromedriver(chrome_options, capabilities):
     chromedriver_location = Settings.chromedriver_location
 
     try:
-        browser = webdriver.Chrome(chromedriver_location,
+        browser = webdriver.Chrome('chromedriver',
                                                 desired_capabilities=capabilities,
                                                 chrome_options=chrome_options)
     except WebDriverException as exc:
