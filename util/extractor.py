@@ -466,7 +466,6 @@ def extract_information(browser, username, limit_amount):
     except PageNotFound404 as e:
         raise NoInstaProfilePageFound(e)
 
-    num_of_posts_to_do = 999999
 
     ig_user = InstagramUser(browser, username)
     #ig_user.init()
@@ -475,8 +474,10 @@ def extract_information(browser, username, limit_amount):
 
     if limit_amount < 1:
         limit_amount = 999999
-
-    num_of_posts_to_do = ig_user.num_of_posts['count']
+        
+    num_of_posts_to_do = limit_amount
+    if(num_of_posts_to_do > ig_user.num_of_posts['count']):
+        num_of_posts_to_do = ig_user.num_of_posts['count']
 
     prev_divs = browser.find_elements_by_class_name('_70iju')
 
