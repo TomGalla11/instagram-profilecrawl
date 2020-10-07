@@ -11,7 +11,7 @@ from util.settings import Settings
 from post_getter import di_csv_kan
 from tqdm import tqdm
 
-print('Settings.limit_amount')
+print(Settings.limit_amount)
 with SetupBrowserEnvironment() as browser:
     usernames = get_all_user_names()
     for username in tqdm(usernames):
