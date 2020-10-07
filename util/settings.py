@@ -28,7 +28,7 @@ class Settings:
     loggers = {}
 
     login_username = 'wipipix146'
-    login_password = ''
+    login_password = 'Manuel17'
 
     # chromedriver
     chromedriver_min_version = 2.36
