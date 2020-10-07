@@ -471,6 +471,7 @@ def extract_information(browser, username, limit_amount):
     ig_user = InstagramUser(browser, username)
     #ig_user.init()
     ig_user.get_user_info()
+    print(limit_amount)
 
     if limit_amount < 1:
         limit_amount = 999999
