@@ -19,7 +19,7 @@ class SetupBrowserEnvironment:
             #chrome_options = Options()
             #prefs = {'profile.managed_default_content_settings.images':2, 'disk-cache-size': 4096, 'intl.accept_languages': 'en-US'}
             #chrome_options.add_argument('--dns-prefetch-disable')
-            #chrome_options.add_argument("--window-size=1920,1080")
+            chrome_options.add_argument("--window-size=1920,1080")
             #chrome_options.add_argument('--no-sandbox')
             #chrome_options.add_argument('--lang=en-US')
             #chrome_options.add_argument('--headless')
