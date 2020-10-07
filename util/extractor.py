@@ -459,6 +459,7 @@ def extract_information(browser, username, limit_amount):
     try:
         user_link = "https://www.instagram.com/{}/".format(username)
         web_adress_navigator(browser, user_link)
+        browser.save_screenshot("screenshot.png")
         print('Navigated')
         ig_user = InstagramUser(browser, username)
     except PageNotFound404 as e:
