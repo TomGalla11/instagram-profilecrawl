@@ -12,7 +12,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 import requests
 from util.settings import Settings
-from .util import web_adress_navigator
+from util import web_adress_navigator #.util
 from util.extractor_posts import InstagramPost
 import datetime
 from util.instalogger import InstaLogger
