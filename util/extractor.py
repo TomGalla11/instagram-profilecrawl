@@ -20,7 +20,7 @@ from util.exceptions import PageNotFound404, NoInstaProfilePageFound
 
 
 class InstagramUser:
-    def __init__(self, browser, username):
+    def init(self, browser, username): #__init__
         self.browser = browser
         self.username = username
         self.num_of_posts = {'count': 0}
@@ -460,6 +460,7 @@ def extract_information(browser, username, limit_amount):
         user_link = "https://www.instagram.com/{}/".format(username)
         web_adress_navigator(browser, user_link)
         print('Navigated')
+        init()
     except PageNotFound404 as e:
         raise NoInstaProfilePageFound(e)
 
