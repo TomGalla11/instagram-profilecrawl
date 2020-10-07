@@ -19,7 +19,7 @@ class SetupBrowserEnvironment:
             #chrome_options = Options()
             #prefs = {'profile.managed_default_content_settings.images':2, 'disk-cache-size': 4096, 'intl.accept_languages': 'en-US'}
             #chrome_options.add_argument('--dns-prefetch-disable')
-            chrome_options.add_argument("--window-size=1920,1080")
+            #chrome_options.add_argument("--window-size=1920,1080")
             #chrome_options.add_argument('--no-sandbox')
             #chrome_options.add_argument('--lang=en-US')
             #chrome_options.add_argument('--headless')
@@ -53,6 +53,7 @@ def init_chromedriver(chrome_options, capabilities):
 
     try:
         browser = webdriver.Chrome('chromedriver', options=chrome_options)
+        browser.save_screenshot("screenshot1.png")
     except WebDriverException as exc:
         InstaLogger.logger().error('ensure chromedriver is installed at {}'.format(
             Settings.chromedriver_location))
