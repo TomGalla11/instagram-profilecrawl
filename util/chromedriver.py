@@ -2,8 +2,8 @@ import re
 import sys
 
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium import webdriver
+#from selenium.webdriver.chrome.options import Options
+#from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
 
 from util.exceptions import WebDriverException
