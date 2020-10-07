@@ -224,6 +224,7 @@ def extract_followers(browser, username):
 
 def get_num_posts(browser, num_of_posts_to_do):
     """Get all posts from user"""
+    print(num_of_posts_to_do)
     links = []
     links2 = []
     preview_imgs = {}
