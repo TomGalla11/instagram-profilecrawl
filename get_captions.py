@@ -9,6 +9,7 @@ from util.extractor import extract_information
 #from util.extractor_posts import InstagramPost
 from util.settings import Settings
 from post_getter import di_csv_kan
+from log_stats import log_stats
 from tqdm import tqdm
 
 print(Settings.limit_amount)
@@ -18,6 +19,6 @@ with SetupBrowserEnvironment() as browser:
         print('Extracting information from ' + username)
         information, user_commented_list = extract_information(browser, username, Settings.limit_amount)
         Datasaver.save_profile_json(username, information.to_dict())
-        # print ("Number of users who commented on their profile is ", len(user_commented_list),"\n")
+        print ("Number of users who commented on their profile is ", len(user_commented_list),"\n")
 
 print('convert to csv')
