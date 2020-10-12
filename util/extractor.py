@@ -478,7 +478,8 @@ def extract_information(browser, username, limit_amount):
     num_of_posts_to_do = limit_amount
     if(num_of_posts_to_do > ig_user.num_of_posts['count']):
         num_of_posts_to_do = ig_user.num_of_posts['count']
-
+    
+    print(num_of_posts_to_do)
     prev_divs = browser.find_elements_by_class_name('_70iju')
 
     post_infos = []
